@@ -3,6 +3,10 @@ A small, simple, HTML/JS image gallery generator.
 
 -----
 
+## Requirements
+  * `shell.lua` (included)
+  * [`dkjson`](http://dkolf.de/src/dkjson-lua.fsl/home)
+
 ## Use
 
 Run `snekkja` from the directory on your web server containing your image

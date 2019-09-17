@@ -2,7 +2,7 @@
  * 
  * snekkja Gallery Javascript functions
  * 
- * 2019-09-15
+ * 2019-09-17
  */
 
 const DEBUG = false;
@@ -22,10 +22,7 @@ function debug(fmtstr, ...argz) {
     return;
 }
 
-const preview_size = 100;
 const preview_border = 6;
-
-var thumbs = Array();
 var strip_idx = 0;
 
 function get_n_thumbs() {
@@ -41,18 +38,21 @@ function get_n_thumbs() {
 function focus_image(img_n) {
     debug('focus_image({0}) called', img_n);
     let main_div = document.getElementById('main');
+    let cap_div = document.getElementById('caption');
     let i_obj = img_data[img_n];
     main_div.innerHTML = '';
-    let fig = document.createElement('figure');
     let n_img = document.createElement('img');
     n_img.setAttribute('src', i_obj.u);
-    fig.appendChild(n_img);
     if(i_obj.hasOwnProperty('c')) {
-        let cap = document.createElement('figcaption');
-        cap.innerHTML = i_obj.c;
-        fig.appendChild(cap);
+        cap_div.innerHTML = i_obj.c;
+        cap_div.style.display = 'block';
+    } else {
+        cap_div.style.display = 'none';
     }
-    main_div.appendChild(fig);
+    main_div.appendChild(n_img);
+    n_img.style.height = '100vh';
+    var h = main_div.clientHeight;
+    n_img.style.height = h + 'px';
     
     return;
 }

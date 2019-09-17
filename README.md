@@ -5,12 +5,14 @@ A small, simple, HTML/JS image gallery generator.
 
 ## Requirements
   * `shell.lua` (included)
+  * `dargs.lua` (included)
+  * `dfmt.lua`  (included)
   * [`dkjson`](http://dkolf.de/src/dkjson-lua.fsl/home)
 
 ## Installation
 
-The Lua script goes somewhere in your path; the two required Lua modules
-go somewhere in your Lua `package.path`. That's it. The HTML and CSS files
+The Lua script goes somewhere in your path; the required Lua modules go
+somewhere in your Lua `package.path`. That's it. The HTML and CSS files
 are just for reference (they are compactified and stuffed into `snekkja.lua`),
 and the JS file is already hosted on the web.
 
@@ -19,6 +21,11 @@ and the JS file is already hosted on the web.
 Run `snekkja` from the directory on your web server containing your image
 files. `snekkja` recognizes as image files filenames ending in `.jpg`, `.jpeg`,
 `.png`, `.gif`, `.bmp`, and `.webp`.
+
+### Custom Configuration
+
+Running `snekkja -c` will generate a default configuration (`config.lua`)
+file with some configuration options to edit.
 
 ### Captions
 

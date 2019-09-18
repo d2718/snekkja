@@ -52,7 +52,14 @@ function focus_image(img_n) {
     main_div.appendChild(n_img);
     n_img.style.height = '100vh';
     var h = main_div.clientHeight;
-    n_img.style.height = h + 'px';
+    n_img.style.height = null;
+    n_img.style.maxHeight = h + 'px';
+    
+    let zoom_div = document.getElementById('zoom');
+    let zoom_img = document.getElementById('zoomimg');
+    zoom_img.src = i_obj.u;
+    zoom_img.onclick = function() { zoom_div.style.display = 'none'; }
+    n_img.onclick = function() { zoom_div.style.display = 'block'; }
     
     return;
 }

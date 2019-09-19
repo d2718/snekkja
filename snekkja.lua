@@ -4,7 +4,7 @@
 
 Generate small, simple image galleries.
 
-2019-09-16
+2019-09-18
 
 --]]
 
@@ -84,6 +84,9 @@ return {
 -- Size in pixels of the thumbnail images along the bottom of the page.
     ['thumbnail_size'] = 100,
 
+-- Recognized image file extensions.
+    ['file_extensions'] = 'jpg,jpeg,png,gif,bmp,webp',
+
 -- Default caption given to images with no accompanying caption file.
 -- A non-string value will result in no caption.
     ['default_caption'] = nil,
@@ -102,10 +105,13 @@ return {
 local config = {
     ['gallery_title'] = nil,
     ['thumbnail_size'] = 100,
+    ['file_extensions'] = 'jpg,jpeg,png,gif,bmp,webp',
     ['default_caption'] = nil,
     ['pretty_json'] = true,
     ['sort_func'] = function(a, b) return a < b end
 }
+
+local image_t = {}
 
 -- Exit on error with an explanation
 local function die(fmtstr, ...)
@@ -114,12 +120,6 @@ local function die(fmtstr, ...)
     if msg:sub(#msg, #msg) ~= '\n' then io.stderr:write('\n') end
     os.exit(1)
 end
-
--- Recognized image file extensions.
-local IMAGE_EXTS = { '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp' }
-
-local image_t = {}
-for _, ext in ipairs(IMAGE_EXTS) do image_t[ext] = true end
 
 -- Return the extension of a filename.
 local function get_extension(fname)
@@ -147,6 +147,11 @@ local function configure()
         end
     else
         io.stderr:write('Missing or mangled config file; using default values.\n')
+    end
+    
+    for ext in string.gmatch(config.file_extensions, '[^,]+') do
+        local exts = '.' .. string.lower(dfmt.trim(ext))
+        image_t[exts] = true
     end
 end
 

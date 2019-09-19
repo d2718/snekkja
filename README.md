@@ -4,23 +4,27 @@ A small, simple, HTML/JS image gallery generator.
 -----
 
 ## Requirements
-  * `shell.lua` (included)
-  * `dargs.lua` (included)
-  * `dfmt.lua`  (included)
-  * [`dkjson`](http://dkolf.de/src/dkjson-lua.fsl/home)
+  * [ImageMagick](https://imagemagick.org/index.php)
+  * [`dkjson`](http://dkolf.de/src/dkjson-lua.fsl/home) (Lua module)
+  * `shell.lua` (included Lua module)
+  * `dargs.lua` (included Lua module)
+  * `dfmt.lua`  (included Lua module)
 
 ## Installation
 
-The Lua script goes somewhere in your path; the required Lua modules go
-somewhere in your Lua `package.path`. That's it. The HTML and CSS files
-are just for reference (they are compactified and stuffed into `snekkja.lua`),
-and the JS file is already hosted on the web.
+Install the requirements in their appropriate places. (ImageMagick may already
+be installed on your system; the other Lua modules of course go somewhere
+in your `package.path`.) That's it. The HTML and CSS files are just for
+reference (they are compactified and stuffed into `snekkja.lua`), and the JS
+file is already hosted on the web.
 
 ## Use
 
 Run `snekkja` from the directory on your web server containing your image
-files. `snekkja` recognizes as image files filenames ending in `.jpg`, `.jpeg`,
-`.png`, `.gif`, `.bmp`, and `.webp`.
+files. By default, `snekkja` recognizes as image files filenames ending in
+`.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, and `.webp` (although this is
+customizable). It will generate all the appropriate resources to display
+a gallery of those images when you point your browser at that directory.
 
 ### Custom Configuration
 
@@ -30,7 +34,9 @@ file with some configuration options to edit.
 ### Captions
 
 To include a caption for the image with filename `pixor_123.jpg`, include
-the text of the caption in a file named `pixor_123.html`.
+the text of the caption in a file named `pixor_123.html`. The contents of
+this file gets inserted directly into the page, so you can include HTML tags.
+Yes, you can break the layout of the page this way, so be careful.
 
 ### Custom Style
 

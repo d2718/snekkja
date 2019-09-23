@@ -116,6 +116,19 @@ function populate_thumbstrip(thumb_idx) {
         }
     }
     
+    let larrow = document.getElementById('larrow');
+    let rarrow = document.getElementById('rarrow');
+    if(strip_idx == 0) {
+        larrow.style.display = 'none';
+    } else {
+        larrow.style.display = 'inline-block';
+    }
+    if(strip_idx == max_strip_idx) {
+        rarrow.style.display = 'none';
+    } else {
+        rarrow.style.display = 'inline-block';
+    }
+    
     return;
 }
 

@@ -94,7 +94,7 @@ function populate_thumbstrip(thumb_idx) {
     debug('populate_thumbstrip({0}) called', thumb_idx);
     let n_thumbs = get_n_thumbs();
     let tstrip = document.getElementById('thumbstrip');
-    let max_strip_idx = img_data.length - 1 - n_thumbs;
+    let max_strip_idx = img_data.length - n_thumbs;
     
     let offset = Math.floor(n_thumbs/2);
     let strip_idx = thumb_idx - offset;

@@ -16,7 +16,7 @@ Install the requirements in their appropriate places. (ImageMagick may already
 be installed on your system; the other Lua modules of course go somewhere
 in your `package.path`.) That's it. The HTML and CSS files are just for
 reference (they are compactified and stuffed into `snekkja.lua`), and the JS
-file is already hosted on the web.
+file and arrow SVG images are already hosted on the web.
 
 ## Use
 

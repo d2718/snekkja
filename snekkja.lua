@@ -8,6 +8,7 @@ Generate small, simple image galleries.
 
 --]]
 
+-- Sometimes this is helpful.
 package.path = package.path .. ';/home3/dan/local/lib/lua/?.lua'
 
 local TEST = { entries=false, config=false }
@@ -30,48 +31,110 @@ usage: snekkja [ -h | -c ]
 ]]
 
 local INDEX = [[<!doctype html>
-<html><head>
-<meta charset="utf-8">
-<title>${gal_title}</title>
-<script type="text/javascript" src="data.js"></script>
-<link rel="stylesheet" href="snekkja.css">
-<link rel="stylesheet" href="user.css">
-<script type="text/javascript">
-const preview_size = ${thumb_size};
-</script>
-</head><body><div id="flexcol">
-<div id="header">${gal_title}</div><div id="main"></div>
-<div id="caption"></div>
-<div id="thumbcontainer"><div id="thumbstrip"></div></div>
-<div id="footer"></div>
-<div id="zoom"><img id="zoomimg"></div>
-<!-- <div id="debug_div"></div></div> -->
-<script type="text/javascript" src="https://d2718.net/hosted/snekkja.js"></script>
-</body></html>]]
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>${gal_title}</title>
+    <script type="text/javascript" src="data.js"></script>
+    <link rel="stylesheet" href="snekkja.css">
+    <link rel="stylesheet" href="user.css">
+    <script type="text/javascript">
+    const preview_size = ${thumb_size};
+    </script>
+</head>
+<body>
+<div id="flexcol">
+    <div id="header">${gal_title}</div><div id="main"></div>
+    <div id="caption"></div>
+    <div id="thumbcontainer">
+        <img id="larrow" class="arrow" src="https://d2718.net/hosted/prev.svg">
+        <div id="thumbstrip"></div>
+        <img id="rarrow" class="arrow" src="https://d2718.net/hosted/next.svg">
+    </div>
+    <div id="footer"></div>
+    <div id="zoom"><img id="zoomimg"></div>
+    <!-- <div id="debug_div"></div></div> -->
+    <script type="text/javascript" src="https://d2718.net/hosted/snekkja.js"></script>
+</body>
+</html>
+]]
 
-local STYLESHEET = [[body { background-color: #333; color: #abb;
-margin: 0; border: 0; padding: 0; z-index: 0; }
-#flexcol { height: 100vh; display: flex; flex-direction: column; opacity: 1.0;
-flex-wrap: nowrap; justify-content: space-between; align-items: center; }
+local STYLESHEET = [[
+body {
+    background-color: #333; color: #abb;
+    margin: 0; border: 0; padding: 0;
+    z-index: 0;
+}
+
+#flexcol { 
+    height: 100vh; 
+    display: flex; flex-direction: column; opacity: 1.0;
+    flex-wrap: nowrap; justify-content: space-between; align-items: center;
+}
+
 #flexcol > div { margin-top: 1em; ;}
+
 #header { text-align: center; flex-shrink: 0; }
-#main { text-align: center; flex-shrink: 1; min-height: 0; overflow: hidden; }
+
+#main {
+    text-align: center;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
 #main img { max-width: 100vw; }
-#thumbstrip { display: flex; justify-content: center;
-align-items: center; align-content: center; flex-shrink: 0; }
-#thumbcontainer { align-self: stretch; }
-#thumbstrip div { position: relative; display: inline-block;
-overflow: hidden; height: ${thumb_size}px; width: ${thumb_size}px; 
-border: 4px solid black; margin: 4px; }
+
+#thumbstrip {
+    display: flex; justify-content: center;
+    align-items: center; align-content: center; flex-shrink: 0;
+}
+
+#thumbcontainer {
+    position: relative;
+    align-self: stretch;
+}
+
+#thumbstrip div {
+    position: relative; display: inline-block; overflow: hidden;
+    height: ${thumb_size}px; width: ${thumb_size}px; 
+    border: 4px solid black; margin: 4px;
+}
+
 #thumbstrip div img { position: absolute; }
+
 div#thumbstrip div.thumblight { border: 4px solid gray; }
+
+img.arrow {
+    position: absolute;
+    display: inline-block;
+    z-index: 1;
+    height: 50%;
+    top: 25%;
+    background-color: white;
+    opacity: 0.5;
+}
+
+#larrow { left: 2em; }
+#rarrow { right: 2em; }
+
 #footer { text-align: center; flex-shrink: 0; }
-body div#zoom { z-index: 1; position: fixed; top: 0; left: 0; margin: 0;
-height: 100vh; width: 100vw; background-color: rgba(32, 32, 32, 0.8);
-display: none; }
-#zoomimg { position: absolute; left: 0; right: 0; margin: auto;
-max-width: 100vw; max-height: 100vh; display: block; }
-#debug_div { font-family: monospace; white-space: pre; }]]
+
+body div#zoom {
+    position: fixed; top: 0; left: 0; margin: 0;
+    height: 100vh; width: 100vw;
+    background-color: rgba(32, 32, 32, 0.8);
+    display: none; z-index: 2;
+}
+
+#zoomimg {
+    position: absolute; left: 0; right: 0;
+    margin: auto; max-width: 100vw; max-height: 100vh;
+    display: block;
+}
+
+#debug_div { font-family: monospace; white-space: pre; }
+]]
 
 local CONFIG = [[
 -- snekkja Gallery Configuration File
@@ -311,9 +374,3 @@ dataf:close()
 
 write_index(config)
 write_css(config)
-
-
-
-
-
-

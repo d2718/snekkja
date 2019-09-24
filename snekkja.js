@@ -2,7 +2,7 @@
  * 
  * snekkja Gallery Javascript functions
  * 
- * 2019-09-17
+ * 2019-09-24
  */
 
 const DEBUG = false;
@@ -23,7 +23,9 @@ function debug(fmtstr, ...argz) {
 }
 
 const preview_border = 6;
+var strip_scroll_overlap = 1;
 var strip_idx = 0;
+var highlight_idx = 0;
 
 function get_n_thumbs() {
     let strip = document.getElementById('thumbcontainer');
@@ -90,14 +92,14 @@ function set_thumb(img_obj, thumb_div) {
     return new_img;
 }
 
-function populate_thumbstrip(thumb_idx) {
+function populate_thumbstrip(start_idx, thumb_idx) {
     debug('populate_thumbstrip({0}) called', thumb_idx);
     let n_thumbs = get_n_thumbs();
     let tstrip = document.getElementById('thumbstrip');
     let max_strip_idx = img_data.length - n_thumbs;
     
-    let offset = Math.floor(n_thumbs/2);
-    let strip_idx = thumb_idx - offset;
+    strip_idx = start_idx;
+    highlight_idx = thumb_idx;
     if(strip_idx > max_strip_idx) { strip_idx = max_strip_idx; }
     if(strip_idx < 0) { strip_idx = 0; }
     
@@ -112,7 +114,8 @@ function populate_thumbstrip(thumb_idx) {
         let new_img = set_thumb(img_data[img_n], new_tdiv);
         new_img.onclick = function() {
             focus_image(img_n);
-            populate_thumbstrip(img_n);
+            var offset = Math.floor(get_n_thumbs()/2);
+            populate_thumbstrip(img_n-offset, img_n);
         }
     }
     
@@ -132,7 +135,23 @@ function populate_thumbstrip(thumb_idx) {
     return;
 }
 
+function scroll_left() {
+    var new_idx = strip_idx - (get_n_thumbs() - strip_scroll_overlap);
+    if(new_idx == strip_idx) { new_idx = new_idx - 1; }
+    populate_thumbstrip(new_idx, highlight_idx);
+}
+
+function scroll_right() {
+    var new_idx = strip_idx + (get_n_thumbs() - strip_scroll_overlap);
+    if(new_idx == strip_idx) { new_idx = new_idx + 1; }
+    populate_thumbstrip(new_idx, highlight_idx);
+}
+
 window.onload = function() {
+    let larrow = document.getElementById('larrow');
+    let rarrow = document.getElementById('rarrow');
+    larrow.onclick = scroll_left;
+    rarrow.onclick = scroll_right;
     focus_image(0);
-    populate_thumbstrip(0);
+    populate_thumbstrip(0, 0);
 }

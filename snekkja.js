@@ -2,7 +2,8 @@
  * 
  * snekkja Gallery Javascript functions
  * 
- * 2019-09-24
+ * https://github.com/d2718/snekkja
+ * 2019-09-25
  */
 
 const DEBUG = false;
